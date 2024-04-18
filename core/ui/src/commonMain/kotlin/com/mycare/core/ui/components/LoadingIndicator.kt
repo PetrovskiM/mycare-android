@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 fun LoadingIndicator(
     modifier: Modifier? = null,
     size: Dp = LoadingIndicatorSize,
-    strokeWidth: Dp? = null
+    strokeWidth: Dp? = null,
 ) {
     Box(
         modifier = modifier ?: Modifier.fillMaxSize(),
@@ -23,7 +23,7 @@ fun LoadingIndicator(
     ) {
         CircularProgressIndicator(
             modifier = Modifier.size(size),
-            strokeWidth = strokeWidth ?: ProgressIndicatorDefaults.CircularStrokeWidth
+            strokeWidth = strokeWidth ?: ProgressIndicatorDefaults.CircularStrokeWidth,
         )
     }
 }

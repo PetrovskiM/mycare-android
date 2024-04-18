@@ -9,7 +9,7 @@ import com.mycare.feature.appointments.presentation.contract.AppointmentsState
 import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction
 import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction.Retry
 import mycare.feature.appointments.generated.resources.Res
-import mycare.feature.appointments.generated.resources.appointments_title
+import mycare.feature.appointments.generated.resources.common_appointments
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.core.annotation.Single
 
@@ -43,7 +43,7 @@ internal class AppointmentsViewModel(private val repository: AppointmentsReposit
                         )
                     }
                 }
-                .onFailure { handleError(it) }
+                .onFailure(::handleError)
         }
     }
 
@@ -51,7 +51,7 @@ internal class AppointmentsViewModel(private val repository: AppointmentsReposit
         updateState { state ->
             state.copy(
                 isLoading = false,
-                error = ErrorState.OnScreen(Res.string.appointments_title),
+                error = ErrorState.OnScreen(Res.string.common_appointments),
             )
         }
     }

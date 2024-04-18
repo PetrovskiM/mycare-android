@@ -1,3 +1,12 @@
 <resources>
-    <string name="appointments_title">Appointments</string>
+    <string name="common_back_cd">Go back</string>
+
+    <string name="common_appointments">Appointments</string>
+    <string name="appointments_upcoming">Upcoming Appointment</string>
+    <string name="appointments_future">Future Appointments</string>
+    <string name="appointments_details">Appointment Details</string>
+    <string name="appointments_location">Location Details</string>
+    <string name="appointments_scheduled">Scheduled</string>
+    <string name="appointments_completed">Completed</string>
+    <string name="appointments_canceled">Canceled</string>
 </resources>

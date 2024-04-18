@@ -3,4 +3,14 @@
     <string name="common_tracking">Tracking</string>
     <string name="common_trials">Trials</string>
     <string name="common_more">More</string>
+    <string name="common_back_cd">Go back</string>
+
+    <!--TODO Due to multi module not working for compose res we need to have the module specific strings in the app module -->
+    <string name="appointments_upcoming">Upcoming Appointment</string>
+    <string name="appointments_future">Future Appointments</string>
+    <string name="appointments_details">Appointment Details</string>
+    <string name="appointments_location">Location Details</string>
+    <string name="appointments_scheduled">Scheduled</string>
+    <string name="appointments_completed">Completed</string>
+    <string name="appointments_canceled">Canceled</string>
 </resources>

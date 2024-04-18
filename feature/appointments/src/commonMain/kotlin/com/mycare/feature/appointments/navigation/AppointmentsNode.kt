@@ -13,6 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.bumble.appyx.components.backstack.BackStack
 import com.bumble.appyx.components.backstack.BackStackModel
+import com.bumble.appyx.components.backstack.operation.pop
 import com.bumble.appyx.components.backstack.operation.push
 import com.bumble.appyx.components.backstack.ui.fader.BackStackFader
 import com.bumble.appyx.navigation.composable.AppyxNavigationContainer
@@ -20,7 +21,9 @@ import com.bumble.appyx.navigation.modality.NodeContext
 import com.bumble.appyx.navigation.node.Node
 import com.bumble.appyx.navigation.node.node
 import com.mycare.core.ui.util.BottomBarHandler
+import com.mycare.core.ui.util.InsetsHandler
 import com.mycare.feature.appointments.details.presentation.AppointmentDetailsScreen
+import com.mycare.feature.appointments.details.presentation.AppointmentDetailsViewModel
 import com.mycare.feature.appointments.navigation.AppointmentsNode.NavTarget.AppointmentDetails
 import com.mycare.feature.appointments.navigation.AppointmentsNode.NavTarget.Appointments
 import com.mycare.feature.appointments.presentation.AppointmentsScreen
@@ -48,6 +51,7 @@ class AppointmentsNode(
     KoinComponent {
 
     private val bottomBarHandler: BottomBarHandler = get<BottomBarHandler>()
+    private val insetsHandler: InsetsHandler = get<InsetsHandler>()
 
     sealed interface NavTarget {
         data object Appointments : NavTarget
@@ -76,6 +80,7 @@ class AppointmentsNode(
             Appointments -> node(nodeContext) {
                 val coroutineScope = rememberCoroutineScope()
                 coroutineScope.launch { bottomBarHandler.emit(true) }
+                coroutineScope.launch { insetsHandler.emit(true) }
 
                 val viewModel = koinInject<AppointmentsViewModel>()
                 val state by viewModel.state.collectAsState()
@@ -89,8 +94,14 @@ class AppointmentsNode(
             is AppointmentDetails -> node(nodeContext) {
                 val coroutineScope = rememberCoroutineScope()
                 coroutineScope.launch { bottomBarHandler.emit(false) }
+                coroutineScope.launch { insetsHandler.emit(false) }
+                val viewModel =
+                    koinInject<AppointmentDetailsViewModel> { parametersOf(navTarget.id) }
+                val state by viewModel.state.collectAsState()
                 AppointmentDetailsScreen(
-                    viewModel = koinInject { parametersOf(navTarget.id) },
+                    state = state,
+                    onViewAction = viewModel::onViewAction,
+                    navigateBack = backStack::pop,
                 )
             }
         }

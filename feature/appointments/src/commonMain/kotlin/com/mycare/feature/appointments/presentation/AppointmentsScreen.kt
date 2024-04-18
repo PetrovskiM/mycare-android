@@ -40,9 +40,11 @@ import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAct
 import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction.Retry
 import com.mycare.feature.appointments.presentation.model.AppointmentUiModel
 import mycare.feature.appointments.generated.resources.Res
+import mycare.feature.appointments.generated.resources.appointments_upcoming
 import mycare.feature.appointments.generated.resources.ic_person
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun AppointmentsScreen(
@@ -149,13 +151,14 @@ private fun AppointmentsComponent(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun UpcomingAppointmentComponent(
     appointment: AppointmentUiModel,
     navigateToAppointmentDetails: (String) -> Unit,
 ) {
     Card(
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = APPOINTMENT_CARD_ALPHA)),
         modifier = Modifier
             .padding(
                 start = Space,
@@ -168,7 +171,7 @@ private fun UpcomingAppointmentComponent(
                 .fillMaxWidth()
                 .padding(all = Space),
         ) {
-            MCText.HeadlineSmall(text = "Upcoming Appointment") // Todo not being resolved with Res
+            MCText.HeadlineSmall(text = stringResource(Res.string.appointments_upcoming)) // Todo not being resolved with Res
             Spacer(height = Space)
             AppointmentComponent(
                 appointment = appointment,
@@ -185,7 +188,7 @@ private fun FutureAppointmentsComponent(
 ) {
     val scrollState = rememberLazyListState()
     Card(
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = APPOINTMENT_CARD_ALPHA)),
         modifier = Modifier
             .padding(
                 start = Space,
@@ -222,3 +225,4 @@ private fun FutureAppointmentsComponent(
 }
 
 private const val USER_ICON_SIZE_FACTOR = 0.6f
+private const val APPOINTMENT_CARD_ALPHA = 0.25f

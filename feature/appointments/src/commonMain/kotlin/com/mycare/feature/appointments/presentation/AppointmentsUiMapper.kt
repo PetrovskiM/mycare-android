@@ -21,10 +21,9 @@ internal fun List<Appointment>.toUiModels(): Pair<AppointmentUiModel, ImmutableL
             first = upcomingAppointment.toUiModel(),
             second = futureAppointments,
         )
-
     }
 
-private fun Appointment.toUiModel() = AppointmentUiModel(
+internal fun Appointment.toUiModel() = AppointmentUiModel(
     id = id,
     name = name,
     day = date.dayOfMonth.toString(),
