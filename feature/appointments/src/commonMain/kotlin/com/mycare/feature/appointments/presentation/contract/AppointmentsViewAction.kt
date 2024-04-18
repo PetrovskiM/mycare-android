@@ -1,3 +1,5 @@
 package com.mycare.feature.appointments.presentation.contract
 
-sealed interface AppointmentsViewAction
+internal sealed interface AppointmentsViewAction {
+    data object Retry : AppointmentsViewAction
+}

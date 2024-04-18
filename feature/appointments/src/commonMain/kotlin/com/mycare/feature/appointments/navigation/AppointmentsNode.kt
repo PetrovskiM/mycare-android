@@ -44,7 +44,8 @@ class AppointmentsNode(
 ) : Node<AppointmentsNode.NavTarget>(
     appyxComponent = backStack,
     nodeContext = nodeContext,
-), KoinComponent {
+),
+    KoinComponent {
 
     private val bottomBarHandler: BottomBarHandler = get<BottomBarHandler>()
 
@@ -80,6 +81,7 @@ class AppointmentsNode(
                 val state by viewModel.state.collectAsState()
                 AppointmentsScreen(
                     state = state,
+                    onViewAction = viewModel::onViewAction,
                     navigateToAppointmentDetails = { backStack.push(AppointmentDetails(id = it)) },
                 )
             }
@@ -93,38 +95,3 @@ class AppointmentsNode(
             }
         }
 }
-
-/*
-class BottomBarHook : Interactor<AppointmentDetailsNode>() {
-   // val bottomBarVisibilities = Stack<Boolean>()
-    override fun onCreate(lifecycle: Lifecycle) {
-        println("TESTER ATTACHED onCreate")
-        lifecycle.subscribe(
-            onCreate = {
-                println("TESTER ATTACHED subscribe")
-                // This lambda is executed every time a node of type Child1Node is attached:
-                whenChildAttached { commonLifecycle: Lifecycle, child1: AppointmentDetailsNode ->
-                    println("TESTER ATTACHED whenChildAttached")
-                }
-            },
-            onResume = {
-                println("TESTER ATTACHED onResume")
-            },
-            onStart = { println("TESTER ATTACHED onStart") },
-        )
-    }
-}
-
-class AppointmentDetailsNode(
-    nodeContext: NodeContext,
-    plugins: List<Plugin>,
-    private val appointmentId: String,
-) : LeafNode(
-    nodeContext = nodeContext,
-    plugins = plugins,
-) {
-    @Composable
-    override fun Content(modifier: Modifier) {
-
-    }
-}*/

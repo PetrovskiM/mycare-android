@@ -39,4 +39,5 @@ abstract class BaseViewModel<S : BaseState, A> : ViewModel() {
         _state.update(update)
     }
 
+    abstract fun handleError(throwable: Throwable)
 }

@@ -1,13 +1,20 @@
 package com.mycare.feature.appointments.presentation
 
 import com.mycare.core.common.base.BaseViewModel
+import com.mycare.core.common.base.ErrorState
+import com.mycare.core.common.domain.onFailure
 import com.mycare.core.common.domain.onSuccess
 import com.mycare.feature.appointments.domain.AppointmentsRepository
 import com.mycare.feature.appointments.presentation.contract.AppointmentsState
 import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction
+import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction.Retry
+import mycare.feature.appointments.generated.resources.Res
+import mycare.feature.appointments.generated.resources.appointments_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.core.annotation.Single
 
 @Single
+@OptIn(ExperimentalResourceApi::class)
 internal class AppointmentsViewModel(private val repository: AppointmentsRepository) :
     BaseViewModel<AppointmentsState, AppointmentsViewAction>() {
 
@@ -19,7 +26,7 @@ internal class AppointmentsViewModel(private val repository: AppointmentsReposit
 
     override fun onViewAction(viewAction: AppointmentsViewAction) {
         when (viewAction) {
-            else -> {}
+            Retry -> loadAppointments()
         }
     }
 
@@ -36,6 +43,16 @@ internal class AppointmentsViewModel(private val repository: AppointmentsReposit
                         )
                     }
                 }
+                .onFailure { handleError(it) }
+        }
+    }
+
+    override fun handleError(throwable: Throwable) {
+        updateState { state ->
+            state.copy(
+                isLoading = false,
+                error = ErrorState.OnScreen(Res.string.appointments_title),
+            )
         }
     }
 }

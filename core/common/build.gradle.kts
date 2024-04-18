@@ -7,6 +7,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.network)
             implementation(libs.androidx.lifecycle)
+            implementation(libs.compose.jetbrains.resources)
         }
     }
 }

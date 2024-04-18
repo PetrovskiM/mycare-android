@@ -1,5 +1,6 @@
 package com.mycare.feature.appointments.presentation
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,16 +12,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.bumble.appyx.navigation.collections.ImmutableList
-import com.bumble.appyx.navigation.collections.immutableListOf
+import com.mycare.core.ui.components.LoadingIndicator
 import com.mycare.core.ui.components.MCText
 import com.mycare.core.ui.components.MCToolbar
 import com.mycare.core.ui.components.Spacer
@@ -33,8 +36,9 @@ import com.mycare.core.ui.theme.Dimens.SpaceXXXLarge
 import com.mycare.feature.appointments.presentation.components.AppointmentComponent
 import com.mycare.feature.appointments.presentation.components.FutureAppointmentComponent
 import com.mycare.feature.appointments.presentation.contract.AppointmentsState
+import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction
+import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction.Retry
 import com.mycare.feature.appointments.presentation.model.AppointmentUiModel
-import com.mycare.feature.appointments.presentation.model.fakeAppointment
 import mycare.feature.appointments.generated.resources.Res
 import mycare.feature.appointments.generated.resources.ic_person
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -43,12 +47,13 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 internal fun AppointmentsScreen(
     state: AppointmentsState,
+    onViewAction: (AppointmentsViewAction) -> Unit,
     navigateToAppointmentDetails: (String) -> Unit,
 ) {
-
     AppointmentsContent(
         state = state,
         navigateToAppointmentDetails = navigateToAppointmentDetails,
+        onViewAction = onViewAction,
     )
 }
 
@@ -57,13 +62,16 @@ internal fun AppointmentsScreen(
 private fun AppointmentsContent(
     state: AppointmentsState,
     navigateToAppointmentDetails: (String) -> Unit,
+    onViewAction: (AppointmentsViewAction) -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         MCToolbar.LargeToolbar(
             text = {
-                Column(modifier = Modifier.padding(horizontal = Space)) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = Space)
+                        .weight(1f),
+                ) {
                     MCText.BodyLarge(text = "Hello")
                     MCText.TitleLarge(text = state.user)
                 }
@@ -78,26 +86,63 @@ private fun AppointmentsContent(
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
-                        modifier = Modifier.fillMaxSize(0.6f),
+                        modifier = Modifier.fillMaxSize(USER_ICON_SIZE_FACTOR),
                         painter = painterResource(Res.drawable.ic_person),
                         tint = MaterialTheme.colorScheme.onPrimary,
                         contentDescription = null,
                     )
                 }
-            }
+            },
         )
         Spacer(height = SpaceXLarge)
-        //TODO possibly have a sealed interface of AppointsmentsState that has State and EmptyState
-        if (state.upcomingAppointment != null) {
-            UpcomingAppointmentComponent(
-                appointment = state.upcomingAppointment,
-                navigateToAppointmentDetails = navigateToAppointmentDetails,
-            )
+        AnimatedContent(
+            targetState = state,
+            contentKey = {
+                Triple(
+                    state.isLoading,
+                    state.upcomingAppointment,
+                    state.error,
+                )
+            },
+        ) { state ->
+            when {
+                state.isLoading -> LoadingIndicator()
+                state.upcomingAppointment != null -> AppointmentsComponent(
+                    upcomingAppointment = state.upcomingAppointment,
+                    futureAppointments = state.futureAppointments,
+                    navigateToAppointmentDetails = navigateToAppointmentDetails,
+                )
+
+                state.error != null -> Column {
+                    Text("Error State Placeholder")
+                    Button(onClick = { onViewAction(Retry) }) {
+                        Text("Retry")
+                    }
+                }
+
+                else -> {
+                    Text("Empty State Placeholder")
+                }
+            }
         }
+    }
+}
+
+@Composable
+private fun AppointmentsComponent(
+    upcomingAppointment: AppointmentUiModel,
+    futureAppointments: ImmutableList<AppointmentUiModel>,
+    navigateToAppointmentDetails: (String) -> Unit,
+) {
+    Column {
+        UpcomingAppointmentComponent(
+            appointment = upcomingAppointment,
+            navigateToAppointmentDetails = navigateToAppointmentDetails,
+        )
         Spacer(height = SpaceXLarge)
-        if (state.futureAppointments.isNotEmpty()) {
+        if (futureAppointments.isNotEmpty()) {
             FutureAppointmentsComponent(
-                appointments = state.futureAppointments,
+                appointments = futureAppointments,
                 navigateToAppointmentDetails = navigateToAppointmentDetails,
             )
         }
@@ -115,15 +160,15 @@ private fun UpcomingAppointmentComponent(
             .padding(
                 start = Space,
                 end = Space,
-                bottom = Space
-            )
+                bottom = Space,
+            ),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = Space)
+                .padding(all = Space),
         ) {
-            MCText.HeadlineSmall(text = "Upcoming Appointment") //Todo not being resolved with Res
+            MCText.HeadlineSmall(text = "Upcoming Appointment") // Todo not being resolved with Res
             Spacer(height = Space)
             AppointmentComponent(
                 appointment = appointment,
@@ -145,13 +190,13 @@ private fun FutureAppointmentsComponent(
             .padding(
                 start = Space,
                 end = Space,
-                bottom = Space
-            )
+                bottom = Space,
+            ),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = Space)
+                .padding(all = Space),
         ) {
             MCText.HeadlineSmall(text = "Future Appointments")
             Spacer(height = Space)
@@ -176,39 +221,4 @@ private fun FutureAppointmentsComponent(
     }
 }
 
-/*@Composable
-private fun FutureAppointmentsComponentFallback(appointments: ImmutableList<AppointmentUiModel>) {
-    Box(
-        modifier = Modifier
-            .padding(
-                start = Space,
-                end = Space,
-                bottom = Space
-            )
-            .shadow(
-                elevation = Medium,
-                shape = RoundedCornerShape(XLarge),
-                spotColor = Color.Transparent,
-                ambientColor = DefaultShadowColor.copy(alpha = BACKGROUND_ALPHA),
-            )
-            .background(color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = BACKGROUND_ALPHA))
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = Space)
-        ) {
-            MCText.HeadlineSmall(text = "Future Appointments")
-            Spacer(height = Space)
-            LazyColumn {
-                items(appointments) {
-                    Spacer(height = Space)
-                    FutureAppointmentComponent(appointment = it)
-                }
-            }
-        }
-    }
-}
-
-private const val BACKGROUND_ALPHA = 0.15f
- */
+private const val USER_ICON_SIZE_FACTOR = 0.6f
