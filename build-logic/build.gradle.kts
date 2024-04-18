@@ -1,6 +1,5 @@
 plugins {
     `kotlin-dsl`
-    alias(libs.plugins.ksp)
 }
 
 group = "com.mycare.build.logic"
@@ -13,6 +12,7 @@ java {
 dependencies {
     compileOnly(libs.android.gradle)
     compileOnly(libs.kotlin.gradle)
+    compileOnly(libs.compose.jetbrains)
     compileOnly(libs.ksp.gradle)
     implementation(libs.spotless)
 }
