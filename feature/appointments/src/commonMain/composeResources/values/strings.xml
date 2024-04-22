@@ -1,5 +1,7 @@
 <resources>
     <string name="common_back_cd">Go back</string>
+    <string name="common_error_message">Something went wrong, please try again.</string>
+    <string name="common_retry">Retry</string>
 
     <string name="common_appointments">Appointments</string>
     <string name="appointments_upcoming">Upcoming Appointment</string>
@@ -9,4 +11,8 @@
     <string name="appointments_scheduled">Scheduled</string>
     <string name="appointments_completed">Completed</string>
     <string name="appointments_canceled">Canceled</string>
+    <string name="appointment_details_on_title">Your appointment for %1$s is on:</string>
+    <string name="appointment_details_on">%1$s, %2$s</string>
+    <string name="appointment_details_handled_by">Handled by %1$s</string>
+    <string name="appointment_details_estimated_duration">Estimated duration %1$s minutes</string>
 </resources>

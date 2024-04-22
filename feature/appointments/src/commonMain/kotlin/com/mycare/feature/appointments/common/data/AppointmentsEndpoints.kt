@@ -1,4 +1,4 @@
-package com.mycare.feature.appointments.data
+package com.mycare.feature.appointments.common.data
 
 internal object AppointmentsEndpoints {
     const val APPOINTMENTS = "/appointments"

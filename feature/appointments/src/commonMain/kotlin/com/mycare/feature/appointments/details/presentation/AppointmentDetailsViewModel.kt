@@ -4,11 +4,11 @@ import com.mycare.core.common.base.BaseViewModel
 import com.mycare.core.common.base.ErrorState
 import com.mycare.core.common.domain.onFailure
 import com.mycare.core.common.domain.onSuccess
+import com.mycare.feature.appointments.common.domain.AppointmentsRepository
+import com.mycare.feature.appointments.common.presentation.toUiModel
 import com.mycare.feature.appointments.details.presentation.contract.AppointmentDetailsState
 import com.mycare.feature.appointments.details.presentation.contract.AppointmentDetailsViewAction
 import com.mycare.feature.appointments.details.presentation.contract.AppointmentDetailsViewAction.Retry
-import com.mycare.feature.appointments.domain.AppointmentsRepository
-import com.mycare.feature.appointments.presentation.toUiModel
 import mycare.feature.appointments.generated.resources.Res
 import mycare.feature.appointments.generated.resources.common_appointments
 import org.jetbrains.compose.resources.ExperimentalResourceApi

@@ -1,10 +1,10 @@
-package com.mycare.feature.appointments.data
+package com.mycare.feature.appointments.common.data
 
 import com.mycare.core.network.ApiResponse
 import com.mycare.core.network.get
-import com.mycare.feature.appointments.data.AppointmentsEndpoints.APPOINTMENT
-import com.mycare.feature.appointments.data.AppointmentsEndpoints.APPOINTMENTS
-import com.mycare.feature.appointments.data.model.AppointmentResponse
+import com.mycare.feature.appointments.common.data.AppointmentsEndpoints.APPOINTMENT
+import com.mycare.feature.appointments.common.data.AppointmentsEndpoints.APPOINTMENTS
+import com.mycare.feature.appointments.common.data.model.AppointmentResponse
 import io.ktor.client.HttpClient
 import org.koin.core.annotation.Factory
 
@@ -21,6 +21,7 @@ internal class AppointmentsApiImpl(private val httpClient: HttpClient) : Appoint
     override suspend fun getAppointment(id: String): ApiResponse<AppointmentResponse> =
         httpClient.get(
             endpoint = APPOINTMENT,
-            /*pathSegments = */ id,
+            /*pathSegments = */
+            id,
         )
 }

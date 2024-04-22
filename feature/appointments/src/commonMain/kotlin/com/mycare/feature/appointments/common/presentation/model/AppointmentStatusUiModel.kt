@@ -1,4 +1,4 @@
-package com.mycare.feature.appointments.common.model
+package com.mycare.feature.appointments.common.presentation.model
 
 import mycare.feature.appointments.generated.resources.Res
 import mycare.feature.appointments.generated.resources.appointments_canceled

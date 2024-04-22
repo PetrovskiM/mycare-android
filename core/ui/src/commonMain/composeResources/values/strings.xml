@@ -1,3 +1,5 @@
 <resources>
     <string name="navigate_back_cd">Navigate Back</string>
+    <string name="common_error_message">Something went wrong, please try again.</string>
+    <string name="common_retry">Retry</string>
 </resources>

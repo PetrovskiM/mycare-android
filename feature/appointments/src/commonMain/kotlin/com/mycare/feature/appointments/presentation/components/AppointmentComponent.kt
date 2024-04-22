@@ -20,7 +20,7 @@ import com.mycare.core.ui.components.Spacer
 import com.mycare.core.ui.theme.Dimens.Elevation.Large
 import com.mycare.core.ui.theme.Dimens.Space
 import com.mycare.core.ui.theme.Dimens.SpaceMedium
-import com.mycare.feature.appointments.presentation.model.AppointmentUiModel
+import com.mycare.feature.appointments.common.presentation.model.AppointmentUiModel
 
 @Composable
 internal fun AppointmentComponent(
@@ -67,7 +67,7 @@ private fun BaseAppointmentComponent(
                     .widthIn(min = DATE_MIN_WIDTH.dp)
                     .padding(all = Space),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 MCText.HeadlineSmall(
                     text = appointment.day,
@@ -83,13 +83,13 @@ private fun BaseAppointmentComponent(
         Column(
             modifier = Modifier
                 .padding(all = SpaceMedium)
-                .weight(1f)
+                .weight(1f),
         ) {
             MCText.TitleMedium(text = appointment.name)
             Spacer(height = SpaceMedium)
             MCText.BodyMedium(text = appointment.time)
         }
-        //TODO Not being resolved on iOS
+        // TODO Not being resolved on iOS
         /*Icon(
             modifier = Modifier.size(ICON_SIZE.dp),
             tint = MaterialTheme.colorScheme.primary,

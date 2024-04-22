@@ -4,7 +4,8 @@ import com.mycare.core.common.base.BaseViewModel
 import com.mycare.core.common.base.ErrorState
 import com.mycare.core.common.domain.onFailure
 import com.mycare.core.common.domain.onSuccess
-import com.mycare.feature.appointments.domain.AppointmentsRepository
+import com.mycare.feature.appointments.common.domain.AppointmentsRepository
+import com.mycare.feature.appointments.common.presentation.toUiModels
 import com.mycare.feature.appointments.presentation.contract.AppointmentsState
 import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction
 import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction.Retry
@@ -31,6 +32,7 @@ internal class AppointmentsViewModel(private val repository: AppointmentsReposit
     }
 
     private fun loadAppointments() {
+        // TODO filter out COMPLETED and CANCELED from here (in repo)
         launch {
             repository.getAppointments()
                 .onSuccess { appointments ->

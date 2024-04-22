@@ -19,7 +19,7 @@ import com.mycare.core.ui.theme.Dimens
 import com.mycare.core.ui.theme.canceled
 import com.mycare.core.ui.theme.completed
 import com.mycare.core.ui.theme.scheduled
-import com.mycare.feature.appointments.common.model.AppointmentStatusUiModel
+import com.mycare.feature.appointments.common.presentation.model.AppointmentStatusUiModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 

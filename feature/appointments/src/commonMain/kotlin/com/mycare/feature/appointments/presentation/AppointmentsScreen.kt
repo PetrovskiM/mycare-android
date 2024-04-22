@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -23,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.bumble.appyx.navigation.collections.ImmutableList
+import com.mycare.core.ui.components.ErrorComponent
 import com.mycare.core.ui.components.LoadingIndicator
 import com.mycare.core.ui.components.MCText
 import com.mycare.core.ui.components.MCToolbar
@@ -33,12 +33,12 @@ import com.mycare.core.ui.theme.Dimens.Space
 import com.mycare.core.ui.theme.Dimens.SpaceMedium
 import com.mycare.core.ui.theme.Dimens.SpaceXLarge
 import com.mycare.core.ui.theme.Dimens.SpaceXXXLarge
+import com.mycare.feature.appointments.common.presentation.model.AppointmentUiModel
 import com.mycare.feature.appointments.presentation.components.AppointmentComponent
 import com.mycare.feature.appointments.presentation.components.FutureAppointmentComponent
 import com.mycare.feature.appointments.presentation.contract.AppointmentsState
 import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction
 import com.mycare.feature.appointments.presentation.contract.AppointmentsViewAction.Retry
-import com.mycare.feature.appointments.presentation.model.AppointmentUiModel
 import mycare.feature.appointments.generated.resources.Res
 import mycare.feature.appointments.generated.resources.appointments_upcoming
 import mycare.feature.appointments.generated.resources.ic_person
@@ -115,12 +115,9 @@ private fun AppointmentsContent(
                     navigateToAppointmentDetails = navigateToAppointmentDetails,
                 )
 
-                state.error != null -> Column {
-                    Text("Error State Placeholder")
-                    Button(onClick = { onViewAction(Retry) }) {
-                        Text("Retry")
-                    }
-                }
+                state.error != null -> ErrorComponent(
+                    onClick = { onViewAction(Retry) },
+                )
 
                 else -> {
                     Text("Empty State Placeholder")

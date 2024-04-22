@@ -1,9 +1,9 @@
-package com.mycare.feature.appointments.domain
+package com.mycare.feature.appointments.common.domain
 
 import com.mycare.core.common.domain.RepositoryResult
 import com.mycare.core.common.domain.toRepositoryResult
-import com.mycare.feature.appointments.data.AppointmentsApi
-import com.mycare.feature.appointments.domain.model.Appointment
+import com.mycare.feature.appointments.common.data.AppointmentsApi
+import com.mycare.feature.appointments.common.domain.model.Appointment
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

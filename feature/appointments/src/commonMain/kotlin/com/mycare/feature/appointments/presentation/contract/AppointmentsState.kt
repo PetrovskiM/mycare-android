@@ -4,7 +4,7 @@ import com.bumble.appyx.navigation.collections.ImmutableList
 import com.bumble.appyx.navigation.collections.immutableListOf
 import com.mycare.core.common.base.BaseState
 import com.mycare.core.common.base.ErrorState
-import com.mycare.feature.appointments.presentation.model.AppointmentUiModel
+import com.mycare.feature.appointments.common.presentation.model.AppointmentUiModel
 
 internal data class AppointmentsState(
     override val isLoading: Boolean = true,

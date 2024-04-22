@@ -1,6 +1,4 @@
-package com.mycare.feature.appointments.presentation.model
-
-import com.mycare.feature.appointments.common.model.AppointmentStatusUiModel
+package com.mycare.feature.appointments.common.presentation.model
 
 internal data class AppointmentUiModel(
     val id: String,
@@ -9,6 +7,8 @@ internal data class AppointmentUiModel(
     val month: String,
     val time: String,
     val handledBy: String,
-    val statusUiModel: AppointmentStatusUiModel,
+    val estimatedDuration: Int?,
     val location: LocationUiModel,
+    val conclusion: String?,
+    val status: AppointmentStatusUiModel,
 )

@@ -4,6 +4,8 @@
     <string name="common_trials">Trials</string>
     <string name="common_more">More</string>
     <string name="common_back_cd">Go back</string>
+    <string name="common_error_message">Something went wrong, please try again.</string>
+    <string name="common_retry">Retry</string>
 
     <!--TODO Due to multi module not working for compose res we need to have the module specific strings in the app module -->
     <string name="appointments_upcoming">Upcoming Appointment</string>
@@ -13,4 +15,8 @@
     <string name="appointments_scheduled">Scheduled</string>
     <string name="appointments_completed">Completed</string>
     <string name="appointments_canceled">Canceled</string>
+    <string name="appointment_details_on_title">Your appointment for %1$s is on:</string>
+    <string name="appointment_details_on">%1$s, %2$s</string>
+    <string name="appointment_details_handled_by">Handled by %1$s</string>
+    <string name="appointment_details_estimated_duration">Estimated duration %1$s minutes</string>
 </resources>

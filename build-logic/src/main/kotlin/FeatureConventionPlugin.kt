@@ -22,6 +22,8 @@ class FeatureConventionPlugin : Plugin<Project> {
                         api(project(":core:network"))
                         implementation(libs.findLibrary("appyx.navigation").get())
                         implementation(libs.findLibrary("appyx.components.backstack").get())
+                        implementation(libs.findLibrary("coil.compose").get())
+                        implementation(libs.findLibrary("coil.network").get())
                     }
                 }
             }
