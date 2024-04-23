@@ -10,10 +10,12 @@ import androidx.compose.ui.window.ComposeUIViewController
 import androidx.compose.ui.zIndex
 import com.bumble.appyx.navigation.integration.IosNodeHost
 import com.bumble.appyx.navigation.integration.MainIntegrationPoint
+import com.mycare.core.network.di.networkModule
+import com.mycare.core.ui.di.CoreUiModule
 import com.mycare.core.ui.theme.AppTheme
 import com.mycare.di.mainModule
 import com.mycare.feature.appointments.di.AppointmentsModule
-import com.mycare.core.ui.di.CoreUiModule
+import com.mycare.feature.history.di.HistoryModule
 import com.mycare.navigation.RootNode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -25,6 +27,7 @@ import org.koin.ksp.generated.module
 val backEvents: Channel<Unit> = Channel()
 private val integrationPoint = MainIntegrationPoint()
 
+@Suppress("FunctionName")
 fun MainViewController() = ComposeUIViewController {
     AppTheme {
         IosNodeHost(
@@ -34,7 +37,7 @@ fun MainViewController() = ComposeUIViewController {
             integrationPoint = integrationPoint,
         ) {
             RootNode(
-                nodeContext = it
+                nodeContext = it,
             )
         }
     }
@@ -48,12 +51,12 @@ private fun BackButton(coroutineScope: CoroutineScope) {
                 backEvents.send(Unit)
             }
         },
-        modifier = Modifier.zIndex(99f)
+        modifier = Modifier.zIndex(99f),
     ) {
         Icon(
             imageVector = Icons.AutoMirrored.Default.ArrowBack,
             tint = Color.White,
-            contentDescription = "Go Back"
+            contentDescription = "Go Back",
         )
     }
 }
@@ -64,6 +67,8 @@ fun initKoin() {
             mainModule,
             AppointmentsModule().module,
             CoreUiModule().module,
+            networkModule,
+            HistoryModule().module,
         )
     }
 }

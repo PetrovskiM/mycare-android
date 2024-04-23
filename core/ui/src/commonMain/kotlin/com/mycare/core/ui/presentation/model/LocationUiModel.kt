@@ -1,6 +1,6 @@
-package com.mycare.feature.appointments.common.presentation.model
+package com.mycare.core.ui.presentation.model
 
-internal data class LocationUiModel(
+data class LocationUiModel(
     val name: String,
     val address: AddressUiModel,
     val phone: String?,

@@ -1,26 +1,20 @@
 package com.mycare.feature.appointments.presentation.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import com.mycare.core.ui.components.DateCardComponent
 import com.mycare.core.ui.components.MCText
 import com.mycare.core.ui.components.Spacer
-import com.mycare.core.ui.theme.Dimens.Elevation.Large
-import com.mycare.core.ui.theme.Dimens.Space
+import com.mycare.core.ui.presentation.model.AppointmentUiModel
 import com.mycare.core.ui.theme.Dimens.SpaceMedium
-import com.mycare.feature.appointments.common.presentation.model.AppointmentUiModel
 
 @Composable
 internal fun AppointmentComponent(
@@ -58,27 +52,11 @@ private fun BaseAppointmentComponent(
             .clickable { navigateToAppointmentDetails(appointment.id) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Card(
-            colors = CardDefaults.cardColors(containerColor = backgroundColor),
-            elevation = CardDefaults.cardElevation(defaultElevation = Large),
-        ) {
-            Column(
-                modifier = Modifier
-                    .widthIn(min = DATE_MIN_WIDTH.dp)
-                    .padding(all = Space),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                MCText.HeadlineSmall(
-                    text = appointment.day,
-                    textColor = MaterialTheme.colorScheme.onPrimary,
-                )
-                MCText.BodyMedium(
-                    text = appointment.month,
-                    textColor = MaterialTheme.colorScheme.onPrimary,
-                )
-            }
-        }
+        DateCardComponent(
+            backgroundColor = backgroundColor,
+            day = appointment.day,
+            month = appointment.month,
+        )
         Spacer(width = SpaceMedium)
         Column(
             modifier = Modifier
@@ -100,4 +78,3 @@ private fun BaseAppointmentComponent(
 }
 
 private const val ICON_SIZE = 36
-private const val DATE_MIN_WIDTH = 90

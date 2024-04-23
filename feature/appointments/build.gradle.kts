@@ -4,9 +4,6 @@ plugins {
 
 kotlin {
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.google.maps)
-        }
         commonMain.dependencies {
             implementation(libs.kotlinx.datetime)
         }

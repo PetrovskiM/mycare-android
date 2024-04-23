@@ -21,19 +21,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import com.bumble.appyx.navigation.collections.ImmutableList
 import com.mycare.core.ui.components.ErrorComponent
 import com.mycare.core.ui.components.LoadingIndicator
 import com.mycare.core.ui.components.MCText
 import com.mycare.core.ui.components.MCToolbar
 import com.mycare.core.ui.components.Spacer
 import com.mycare.core.ui.extension.fadingEdge
+import com.mycare.core.ui.presentation.model.AppointmentUiModel
 import com.mycare.core.ui.theme.Dimens.Radius.XLarge
 import com.mycare.core.ui.theme.Dimens.Space
 import com.mycare.core.ui.theme.Dimens.SpaceMedium
 import com.mycare.core.ui.theme.Dimens.SpaceXLarge
 import com.mycare.core.ui.theme.Dimens.SpaceXXXLarge
-import com.mycare.feature.appointments.common.presentation.model.AppointmentUiModel
+import com.mycare.core.ui.util.ImmutableList
 import com.mycare.feature.appointments.presentation.components.AppointmentComponent
 import com.mycare.feature.appointments.presentation.components.FutureAppointmentComponent
 import com.mycare.feature.appointments.presentation.contract.AppointmentsState
@@ -82,9 +82,9 @@ private fun AppointmentsContent(
                 Box(
                     modifier = Modifier
                         .padding(end = Space)
-                        .clip(RoundedCornerShape(XLarge))
-                        .size(SpaceXXXLarge)
-                        .background(MaterialTheme.colorScheme.primary),
+                        .clip(shape = RoundedCornerShape(XLarge))
+                        .size(size = SpaceXXXLarge)
+                        .background(color = MaterialTheme.colorScheme.primary),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(

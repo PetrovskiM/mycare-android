@@ -26,19 +26,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.mycare.core.ui.components.AppointmentStatusComponent
 import com.mycare.core.ui.components.ErrorComponent
 import com.mycare.core.ui.components.LoadingIndicator
 import com.mycare.core.ui.components.MCText.TitleMedium
 import com.mycare.core.ui.components.Spacer
+import com.mycare.core.ui.presentation.model.AppointmentStatusUiModel
+import com.mycare.core.ui.presentation.model.AppointmentUiModel
+import com.mycare.core.ui.presentation.model.LocationUiModel
 import com.mycare.core.ui.theme.Dimens.Space
 import com.mycare.core.ui.theme.Dimens.SpaceMedium
 import com.mycare.core.ui.theme.Dimens.SpaceSmall
 import com.mycare.core.ui.theme.Dimens.SpaceXLarge
-import com.mycare.feature.appointments.common.presentation.model.AppointmentStatusUiModel
-import com.mycare.feature.appointments.common.presentation.model.AppointmentUiModel
-import com.mycare.feature.appointments.common.presentation.model.LocationUiModel
-import com.mycare.feature.appointments.details.presentation.components.AppointmentStatusComponent
 import com.mycare.feature.appointments.details.presentation.components.BaseDetailsCard
 import com.mycare.feature.appointments.details.presentation.components.DetailComponent
 import com.mycare.feature.appointments.details.presentation.contract.AppointmentDetailsState
@@ -190,7 +191,10 @@ private fun AppointmentComponent(
                 icon = Res.drawable.ic_person,
             )
             Spacer(height = SpaceSmall)
-            AppointmentStatusComponent(status = status)
+            AppointmentStatusComponent(
+                modifier = Modifier.padding(start = START_PADDING.dp),
+                status = status,
+            )
         }
     }
 }
@@ -213,17 +217,17 @@ private fun LocationComponent(location: LocationUiModel) {
                 title = location.address.name,
                 icon = Res.drawable.ic_location,
             )
-            if (location.address.additionalDirections != null) {
+            location.address.additionalDirections?.let {
                 Spacer(height = SpaceMedium)
                 DetailComponent(
-                    title = location.address.additionalDirections,
+                    title = it,
                     icon = Res.drawable.ic_directions,
                 )
             }
-            if (location.phone != null) {
+            location.phone?.let {
                 Spacer(height = SpaceSmall)
                 DetailComponent(
-                    title = location.phone,
+                    title = it,
                     icon = Res.drawable.ic_call,
                 )
             }
@@ -288,3 +292,4 @@ private fun BackButton(onClick: () -> Unit) {
 private const val BACK_ALPHA = 0.3f
 private const val IMAGE_HEIGHT_FRACTION = 0.3f
 private const val CONTENT_HEIGHT_FRACTION = 0.75f
+private const val START_PADDING = 6

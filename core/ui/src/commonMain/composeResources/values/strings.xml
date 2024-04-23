@@ -2,4 +2,7 @@
     <string name="navigate_back_cd">Navigate Back</string>
     <string name="common_error_message">Something went wrong, please try again.</string>
     <string name="common_retry">Retry</string>
+    <string name="appointments_scheduled">Scheduled</string>
+    <string name="appointments_completed">Completed</string>
+    <string name="appointments_canceled">Canceled</string>
 </resources>

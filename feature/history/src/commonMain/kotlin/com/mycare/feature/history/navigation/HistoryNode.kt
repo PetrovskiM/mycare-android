@@ -1,4 +1,4 @@
-package com.mycare.feature.appointments.navigation
+package com.mycare.feature.history.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -20,35 +20,28 @@ import com.bumble.appyx.navigation.composable.AppyxNavigationContainer
 import com.bumble.appyx.navigation.modality.NodeContext
 import com.bumble.appyx.navigation.node.Node
 import com.bumble.appyx.navigation.node.node
-import com.bumble.appyx.navigation.plugin.BackPressHandler
 import com.mycare.core.ui.util.BottomBarHandler
 import com.mycare.core.ui.util.InsetsHandler
-import com.mycare.feature.appointments.details.presentation.AppointmentDetailsScreen
-import com.mycare.feature.appointments.details.presentation.AppointmentDetailsViewModel
-import com.mycare.feature.appointments.navigation.AppointmentsNode.NavTarget.AppointmentDetails
-import com.mycare.feature.appointments.navigation.AppointmentsNode.NavTarget.Appointments
-import com.mycare.feature.appointments.presentation.AppointmentsScreen
-import com.mycare.feature.appointments.presentation.AppointmentsViewModel
+import com.mycare.feature.history.presentation.HistoryScreen
+import com.mycare.feature.history.presentation.HistoryViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import org.koin.core.parameter.parametersOf
 
-class AppointmentsNode(
+class HistoryNode(
     nodeContext: NodeContext,
     private val backStack: BackStack<NavTarget> = BackStack(
         model = BackStackModel(
-            initialTarget = Appointments,
+            initialTarget = NavTarget.History,
             savedStateMap = nodeContext.savedStateMap,
         ),
         visualisation = { BackStackFader(it) },
     ),
-    private val navigateToLoggedOut: () -> Unit,
-) : Node<AppointmentsNode.NavTarget>(
+    private val navigateToAppointmentDetails: (NodeContext, String, () -> Unit) -> Node<*>,
+) : Node<HistoryNode.NavTarget>(
     appyxComponent = backStack,
     nodeContext = nodeContext,
-    plugins = listOf(Back()),
 ),
     KoinComponent {
 
@@ -56,7 +49,7 @@ class AppointmentsNode(
     private val insetsHandler: InsetsHandler = get<InsetsHandler>()
 
     sealed interface NavTarget {
-        data object Appointments : NavTarget
+        data object History : NavTarget
         data class AppointmentDetails(val id: String) : NavTarget
     }
 
@@ -79,62 +72,23 @@ class AppointmentsNode(
 
     override fun buildChildNode(navTarget: NavTarget, nodeContext: NodeContext): Node<*> =
         when (navTarget) {
-            Appointments -> node(nodeContext) {
+            NavTarget.History -> node(nodeContext) {
+                val viewModel = koinInject<HistoryViewModel>()
+                val state by viewModel.state.collectAsState()
                 val coroutineScope = rememberCoroutineScope()
                 coroutineScope.launch { bottomBarHandler.emit(true) }
                 coroutineScope.launch { insetsHandler.emit(true) }
-
-                val viewModel = koinInject<AppointmentsViewModel>()
-                val state by viewModel.state.collectAsState()
-                AppointmentsScreen(
+                HistoryScreen(
                     state = state,
                     onViewAction = viewModel::onViewAction,
-                    navigateToAppointmentDetails = { backStack.push(AppointmentDetails(id = it)) },
+                    navigateToAppointmentDetails = { backStack.push(NavTarget.AppointmentDetails(it)) },
                 )
             }
 
-            is AppointmentDetails -> appointmentDetailsNode(
-                nodeContext = nodeContext,
-                bottomBarHandler = bottomBarHandler,
-                insetsHandler = insetsHandler,
-                appointmentId = navTarget.id,
-                navigateBack = backStack::pop,
+            is NavTarget.AppointmentDetails -> navigateToAppointmentDetails(
+                nodeContext,
+                navTarget.id,
+                backStack::pop,
             )
         }
-}
-
-fun appointmentDetailsNode(
-    nodeContext: NodeContext,
-    bottomBarHandler: BottomBarHandler,
-    insetsHandler: InsetsHandler,
-    appointmentId: String,
-    navigateBack: () -> Unit,
-) = node(nodeContext) {
-    val coroutineScope = rememberCoroutineScope()
-    coroutineScope.launch { bottomBarHandler.emit(false) }
-    coroutineScope.launch { insetsHandler.emit(false) }
-    val viewModel =
-        koinInject<AppointmentDetailsViewModel> { parametersOf(appointmentId) }
-    val state by viewModel.state.collectAsState()
-    AppointmentDetailsScreen(
-        state = state,
-        onViewAction = viewModel::onViewAction,
-        navigateBack = navigateBack,
-    )
-}
-class Back : BackPressHandler {
-    override val onBackPressedCallback: BackPressHandler.OnBackPressedCallback? = object :
-        BackPressHandler.OnBackPressedCallback {
-        override val isEnabled: Boolean
-            get() = true
-
-        override fun handleOnBackPressed() {
-            println("TESTER")
-        }
-    }
-
-    override fun handleOnBackPressed(): Boolean {
-        println("TESTER")
-        return super.handleOnBackPressed()
-    }
 }

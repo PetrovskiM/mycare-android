@@ -46,6 +46,7 @@ kotlin {
             implementation(projects.core.network)
             implementation(projects.feature.authenticate)
             implementation(projects.feature.appointments)
+            implementation(projects.feature.history)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)

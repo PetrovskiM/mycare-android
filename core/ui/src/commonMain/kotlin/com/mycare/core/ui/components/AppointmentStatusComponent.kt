@@ -1,9 +1,8 @@
-package com.mycare.feature.appointments.details.presentation.components
+package com.mycare.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -14,20 +13,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.mycare.core.ui.components.MCText.BodyMedium
-import com.mycare.core.ui.components.Spacer
+import com.mycare.core.ui.presentation.model.AppointmentStatusUiModel
 import com.mycare.core.ui.theme.Dimens
 import com.mycare.core.ui.theme.canceled
 import com.mycare.core.ui.theme.completed
 import com.mycare.core.ui.theme.scheduled
-import com.mycare.feature.appointments.common.presentation.model.AppointmentStatusUiModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-internal fun AppointmentStatusComponent(status: AppointmentStatusUiModel) {
+fun AppointmentStatusComponent(
+    modifier: Modifier = Modifier,
+    status: AppointmentStatusUiModel,
+) {
     Row(
-        modifier = Modifier.padding(start = START_PADDING.dp),
+        modifier = modifier,
         verticalAlignment = CenterVertically,
     ) {
         Box(
@@ -49,5 +50,4 @@ internal fun AppointmentStatusComponent(status: AppointmentStatusUiModel) {
 }
 
 private const val CIRCLE_SIZE = 12
-private const val START_PADDING = 6
 private const val ICON_PADDING = 14

@@ -2,14 +2,14 @@ package com.mycare.navigation
 
 import mycare.composeapp.generated.resources.Res
 import mycare.composeapp.generated.resources.common_appointments
+import mycare.composeapp.generated.resources.common_history
 import mycare.composeapp.generated.resources.common_more
-import mycare.composeapp.generated.resources.common_tracking
 import mycare.composeapp.generated.resources.common_trials
 import mycare.composeapp.generated.resources.ic_appointments_selected
 import mycare.composeapp.generated.resources.ic_appointments_unselected
+import mycare.composeapp.generated.resources.ic_history_selected
+import mycare.composeapp.generated.resources.ic_history_unselected
 import mycare.composeapp.generated.resources.ic_more
-import mycare.composeapp.generated.resources.ic_tracking_selected
-import mycare.composeapp.generated.resources.ic_tracking_unselected
 import mycare.composeapp.generated.resources.ic_trials
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -28,11 +28,11 @@ internal enum class BottomBarItems(
         unselectedRes = Res.drawable.ic_appointments_unselected,
         labelRes = Res.string.common_appointments,
     ),
-    TRACKING(
-        target = LoggedInNode.NavTarget.Tracking,
-        selectedRes = Res.drawable.ic_tracking_selected,
-        unselectedRes = Res.drawable.ic_tracking_unselected,
-        labelRes = Res.string.common_tracking,
+    HISTORY(
+        target = LoggedInNode.NavTarget.History,
+        selectedRes = Res.drawable.ic_history_selected,
+        unselectedRes = Res.drawable.ic_history_unselected,
+        labelRes = Res.string.common_history,
     ),
     TRIALS(
         target = LoggedInNode.NavTarget.Trials,
@@ -45,5 +45,5 @@ internal enum class BottomBarItems(
         selectedRes = Res.drawable.ic_more,
         unselectedRes = Res.drawable.ic_more,
         labelRes = Res.string.common_more,
-    );
+    ),
 }

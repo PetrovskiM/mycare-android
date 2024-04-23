@@ -17,6 +17,7 @@ fun RootScreen(
     navigateToLoggedIn: () -> Unit,
     navigateToLoggedOut: () -> Unit,
 ) {
+    // TODO Check and schedule appointments for local notifications
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,

@@ -2,16 +2,18 @@ package com.mycare.feature.appointments.common.presentation
 
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
-import com.bumble.appyx.navigation.collections.ImmutableList
-import com.bumble.appyx.navigation.collections.toImmutableList
+import com.mycare.core.ui.presentation.model.AddressUiModel
+import com.mycare.core.ui.presentation.model.AppointmentRatingUiModel
+import com.mycare.core.ui.presentation.model.AppointmentStatusUiModel
+import com.mycare.core.ui.presentation.model.AppointmentUiModel
+import com.mycare.core.ui.presentation.model.LocationUiModel
+import com.mycare.core.ui.util.ImmutableList
+import com.mycare.core.ui.util.emptyImmutableList
+import com.mycare.core.ui.util.toImmutableList
 import com.mycare.feature.appointments.common.domain.model.Address
 import com.mycare.feature.appointments.common.domain.model.Appointment
 import com.mycare.feature.appointments.common.domain.model.AppointmentStatus
 import com.mycare.feature.appointments.common.domain.model.Location
-import com.mycare.feature.appointments.common.presentation.model.AddressUiModel
-import com.mycare.feature.appointments.common.presentation.model.AppointmentStatusUiModel
-import com.mycare.feature.appointments.common.presentation.model.AppointmentUiModel
-import com.mycare.feature.appointments.common.presentation.model.LocationUiModel
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 
@@ -40,6 +42,7 @@ internal fun Appointment.toUiModel() = AppointmentUiModel(
     location = location.toUiModel(),
     conclusion = conclusion,
     status = status.toUiModel(),
+    rating = AppointmentRatingUiModel(emptyImmutableList()),
 )
 
 private fun Location.toUiModel() = LocationUiModel(

@@ -1,6 +1,6 @@
-package com.mycare.feature.appointments.common.presentation.model
+package com.mycare.core.ui.presentation.model
 
-internal data class AppointmentUiModel(
+data class AppointmentUiModel(
     val id: String,
     val name: String,
     val day: String,
@@ -11,4 +11,5 @@ internal data class AppointmentUiModel(
     val location: LocationUiModel,
     val conclusion: String?,
     val status: AppointmentStatusUiModel,
+    val rating: AppointmentRatingUiModel,
 )
