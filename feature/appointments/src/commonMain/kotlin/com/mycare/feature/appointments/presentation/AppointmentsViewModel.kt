@@ -32,9 +32,8 @@ internal class AppointmentsViewModel(private val repository: AppointmentsReposit
     }
 
     private fun loadAppointments() {
-        // TODO filter out COMPLETED and CANCELED from here (in repo)
         launch {
-            repository.getAppointments()
+            repository.getScheduledAppointments()
                 .onSuccess { appointments ->
                     val (upcomingAppointment, futureAppointments) = appointments.toUiModels()
                     updateState { state ->

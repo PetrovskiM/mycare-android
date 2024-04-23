@@ -197,6 +197,7 @@ private fun AppointmentComponent(
 
 @Composable
 private fun LocationComponent(location: LocationUiModel) {
+    // TODO Add google maps compnent near end, maybe by that time there will be multiplatform support
     BaseDetailsCard(
         title = Res.string.appointments_location,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),

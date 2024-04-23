@@ -26,6 +26,7 @@ appyx = "2.0.0-alpha10"
 ksp = "1.9.21-1.0.16"
 kotlinxDateTime = "0.6.0-RC.2"
 spotless = "6.23.3"
+googleMaps = "4.3.5"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -69,6 +70,7 @@ android-gradle = { group = "com.android.tools.build", name = "gradle", version.r
 kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradle = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 spotless = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+google-maps = { group = "com.google.maps.android", name = "maps-compose", version.ref = "googleMaps" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
