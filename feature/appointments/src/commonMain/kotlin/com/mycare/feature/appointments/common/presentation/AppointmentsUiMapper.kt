@@ -2,6 +2,7 @@ package com.mycare.feature.appointments.common.presentation
 
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
+import com.mycare.core.common.domain.model.AppointmentStatus
 import com.mycare.core.ui.presentation.model.AddressUiModel
 import com.mycare.core.ui.presentation.model.AppointmentRatingUiModel
 import com.mycare.core.ui.presentation.model.AppointmentStatusUiModel
@@ -12,7 +13,6 @@ import com.mycare.core.ui.util.emptyImmutableList
 import com.mycare.core.ui.util.toImmutableList
 import com.mycare.feature.appointments.common.domain.model.Address
 import com.mycare.feature.appointments.common.domain.model.Appointment
-import com.mycare.feature.appointments.common.domain.model.AppointmentStatus
 import com.mycare.feature.appointments.common.domain.model.Location
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime

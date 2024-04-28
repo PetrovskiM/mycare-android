@@ -1,12 +1,12 @@
 package com.mycare.feature.appointments.common.domain
 
-import com.mycare.feature.appointments.common.data.model.AddressResponse
-import com.mycare.feature.appointments.common.data.model.AppointmentResponse
-import com.mycare.feature.appointments.common.data.model.AppointmentStatusResponse
-import com.mycare.feature.appointments.common.data.model.LocationResponse
+import com.mycare.core.common.data.model.AddressResponse
+import com.mycare.core.common.data.model.AppointmentResponse
+import com.mycare.core.common.data.model.AppointmentStatusResponse
+import com.mycare.core.common.data.model.LocationResponse
+import com.mycare.core.common.domain.model.AppointmentStatus
 import com.mycare.feature.appointments.common.domain.model.Address
 import com.mycare.feature.appointments.common.domain.model.Appointment
-import com.mycare.feature.appointments.common.domain.model.AppointmentStatus
 import com.mycare.feature.appointments.common.domain.model.Location
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime

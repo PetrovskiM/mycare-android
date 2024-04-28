@@ -15,14 +15,19 @@ class CoreConventionPlugin : Plugin<Project> {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.multiplatform")
                 apply("com.mycare.spotless")
+                apply("org.jetbrains.kotlin.plugin.serialization")
             }
 
             extensions.configure<LibraryExtension> {
-                defaultConfig.targetSdk = libs.findVersion("android-targetSdk").get().requiredVersion.toInt()
+                defaultConfig.targetSdk =
+                    libs.findVersion("android-targetSdk").get().requiredVersion.toInt()
                 configureKotlinAndroid(this)
             }
             extensions.configure<KotlinMultiplatformExtension> {
                 configureKmp(this)
+                sourceSets.commonMain.dependencies {
+                    implementation(libs.findLibrary("kotlinx.datetime").get())
+                }
             }
         }
     }

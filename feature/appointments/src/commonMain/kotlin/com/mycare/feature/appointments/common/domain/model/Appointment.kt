@@ -1,5 +1,6 @@
 package com.mycare.feature.appointments.common.domain.model
 
+import com.mycare.core.common.domain.model.AppointmentStatus
 import kotlinx.datetime.LocalDateTime
 
 internal data class Appointment(
