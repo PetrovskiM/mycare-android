@@ -26,4 +26,5 @@
     <string name="history_clear_cd">Clear search query</string>
     <string name="history_all_filters">All filters</string>
     <string name="history_filter">Filter</string>
+    <string name="history_error_message">Temp error</string>
 </resources>

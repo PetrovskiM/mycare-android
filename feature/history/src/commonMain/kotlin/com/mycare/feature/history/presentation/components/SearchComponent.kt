@@ -8,7 +8,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mycare.core.ui.components.MCText
+import com.mycare.core.ui.components.MCText.BodySmall
 import com.mycare.core.ui.theme.Dimens.Space
 import mycare.feature.history.generated.resources.Res
 import mycare.feature.history.generated.resources.history_clear_cd
@@ -23,6 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 internal fun SearchComponent(
     query: String,
     queryChanged: (String) -> Unit,
+    onSearch: (String) -> Unit,
 ) {
     SearchBar(
         modifier = Modifier
@@ -30,10 +31,10 @@ internal fun SearchComponent(
             .padding(horizontal = Space),
         query = query,
         onQueryChange = queryChanged,
-        onSearch = queryChanged,
+        onSearch = onSearch,
         active = false,
         onActiveChange = {},
-        placeholder = { MCText.BodySmall(text = Res.string.history_search_hint) },
+        placeholder = { BodySmall(text = Res.string.history_search_hint) },
         trailingIcon = {
             if (query.isNotEmpty()) {
                 IconButton(onClick = { queryChanged("") }) {

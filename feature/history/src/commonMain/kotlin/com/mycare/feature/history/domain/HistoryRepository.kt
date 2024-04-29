@@ -29,9 +29,12 @@ internal class HistoryRepositoryImpl(
         location: String?,
         status: AppointmentStatus?,
     ): RepositoryResult<List<HistoryAppointment>> = withContext(dispatcher) {
-        api.getAppointments()
-            .toRepositoryResult {
-                it.toDomainModels()
-            }
+        api.getAppointments(
+            name = name,
+            location = location,
+            status = status,
+        ).toRepositoryResult {
+            it.toDomainModels()
+        }
     }
 }

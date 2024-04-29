@@ -5,4 +5,6 @@ internal sealed interface HistoryViewAction {
     data class OpenFilterBottomSheet(val filter: String) : HistoryViewAction
     data object FiltersSaved : HistoryViewAction
     data object FiltersCanceled : HistoryViewAction
+    data object Retry : HistoryViewAction
+    data object Search : HistoryViewAction
 }

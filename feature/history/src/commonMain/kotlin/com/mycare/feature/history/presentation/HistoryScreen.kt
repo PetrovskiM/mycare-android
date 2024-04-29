@@ -1,5 +1,6 @@
 package com.mycare.feature.history.presentation
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +22,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import com.mycare.core.ui.components.AppointmentStatusComponent
 import com.mycare.core.ui.components.DateCardComponent
+import com.mycare.core.ui.components.ErrorComponent
+import com.mycare.core.ui.components.LoadingIndicator
 import com.mycare.core.ui.components.MCText
 import com.mycare.core.ui.components.MCToolbar.LargeToolbar
 import com.mycare.core.ui.components.Spacer
@@ -42,12 +46,16 @@ import com.mycare.feature.history.presentation.contract.HistoryViewAction
 import com.mycare.feature.history.presentation.contract.HistoryViewAction.FiltersCanceled
 import com.mycare.feature.history.presentation.contract.HistoryViewAction.FiltersSaved
 import com.mycare.feature.history.presentation.contract.HistoryViewAction.OpenFilterBottomSheet
+import com.mycare.feature.history.presentation.contract.HistoryViewAction.Retry
+import com.mycare.feature.history.presentation.contract.HistoryViewAction.Search
 import com.mycare.feature.history.presentation.contract.HistoryViewAction.SearchQueryChanged
 import com.mycare.feature.history.presentation.model.HistoryFilterUiModel
+import com.mycare.feature.history.presentation.model.HistoryUiModel
 import mycare.feature.history.generated.resources.Res
 import mycare.feature.history.generated.resources.history
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun HistoryScreen(
     state: HistoryState,
@@ -66,9 +74,28 @@ internal fun HistoryScreen(
         HistoryToolbarComponent(
             searchQuery = state.searchQuery,
             hasSelectedFilters = state.hasSelectedFilters,
+            isLoading = state.isLoading,
             onViewAction = onViewAction,
         )
-        HistoryAppointmentsComponent(appointments)
+        AnimatedContent(
+            targetState = state,
+            contentKey = {
+                Pair(state.isLoading, state.appointments)
+            },
+        ) { state ->
+            when {
+                state.isLoading -> LoadingIndicator()
+                state.appointments.isNotEmpty() -> HistoryAppointmentsComponent(appointments = state.appointments)
+                state.error != null -> ErrorComponent(
+                    onClick = { onViewAction(Retry) },
+                )
+
+                else -> {
+                    Text("Empty State Placeholder")
+                }
+            }
+        }
+
         if (state.isFiltersBottomSheetShown) {
             FiltersBottomSheet(
                 onDismiss = { onViewAction(FiltersCanceled) },
@@ -84,31 +111,35 @@ internal fun HistoryScreen(
 private fun HistoryToolbarComponent(
     searchQuery: String,
     hasSelectedFilters: Boolean,
+    isLoading: Boolean,
     onViewAction: (HistoryViewAction) -> Unit,
 ) {
     LargeToolbar(
         text = Res.string.history,
         extraContent = {
-            SearchComponent(
-                query = searchQuery,
-                queryChanged = { onViewAction(SearchQueryChanged(it)) },
-            )
-            Spacer(height = Space)
-            HistoryFiltersComponent(
-                filters = filters,
-                onFilterClick = { onViewAction(OpenFilterBottomSheet("")) },
-                hasSelectedFilters = hasSelectedFilters,
-            )
-            Spacer(height = SpaceMedium)
+            if (!isLoading) {
+                SearchComponent(
+                    query = searchQuery,
+                    queryChanged = { onViewAction(SearchQueryChanged(it)) },
+                    onSearch = { onViewAction(Search) },
+                )
+                Spacer(height = Space)
+                HistoryFiltersComponent(
+                    filters = filters,
+                    onFilterClick = { onViewAction(OpenFilterBottomSheet("")) },
+                    hasSelectedFilters = hasSelectedFilters,
+                )
+                Spacer(height = SpaceMedium)
+            }
         },
     )
 }
 
 @Composable
-private fun HistoryAppointmentsComponent(appointments: ImmutableList<AppointmentUiModel>) {
+private fun HistoryAppointmentsComponent(appointments: ImmutableList<HistoryUiModel>) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(all = Space),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -120,7 +151,7 @@ private fun HistoryAppointmentsComponent(appointments: ImmutableList<Appointment
 }
 
 @Composable
-private fun HistoryAppointmentComponent(appointment: AppointmentUiModel) {
+private fun HistoryAppointmentComponent(appointment: HistoryUiModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -145,7 +176,7 @@ private fun HistoryAppointmentComponent(appointment: AppointmentUiModel) {
                 MCText.TitleLarge(text = appointment.name)
                 Spacer(height = SpaceSmall)
                 MCText.BodyMedium(text = appointment.time)
-                MCText.BodyMedium(text = appointment.location.name)
+                MCText.BodyMedium(text = appointment.locationName)
                 AppointmentStatusComponent(status = appointment.status)
             }
         }
